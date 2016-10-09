@@ -1,21 +1,3 @@
-
-// Victoria Miltcheva 001
-
-/*
- * StLouisCorp.java calculates how much money hourly employees at StLouisCorp will be paid.
- * This information is displayed in a table format.
- * 
- * -----------
- * HOW TO USE:
- * -----------
- * 
- * 1.) Enter the employee's name. If you wish to exit during this step, simply type 'exit'.
- * 2.) Enter the employee's base pay.
- * 3.) Enter the amount of hours the employee worked.
- * 4.) Repeat these steps until you wish to are finished (type 'exit' during first step to exit program).
- *
- */
-
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
