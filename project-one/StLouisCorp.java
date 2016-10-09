@@ -19,8 +19,7 @@ public class StLouisCorp {
                           // is corresponding)
       boolean running = true; // used to exit while loop
 
-      while (running) {
-         
+      while (running) {         
          System.out.println("\nPlease enter the employee's name:" + "\nType \"exit\" when finished.");
 
          nameArr[i] = input.nextLine();
