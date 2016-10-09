@@ -20,6 +20,7 @@ public class StLouisCorp {
       boolean running = true; // used to exit while loop
 
       while (running) {
+         
          System.out.println("\nPlease enter the employee's name:" + "\nType \"exit\" when finished.");
 
          nameArr[i] = input.nextLine();
@@ -60,6 +61,7 @@ public class StLouisCorp {
 
       // print the table's data
       for (int j = 0; j <= numEntries - 1; ++j) {
+         
          double totalPay = calcTotalPay(basePayArr[j], hoursWorkedArr[j]);
 
          // check for errors
@@ -80,7 +82,9 @@ public class StLouisCorp {
       }
    }
 
+   
    // returns valid input - asks user to re-enter input until they enter a double
+   
    static double validDouble(Scanner input) {
       boolean validDouble = false;
       String userInput = "";
@@ -94,7 +98,10 @@ public class StLouisCorp {
       
       return Double.parseDouble(userInput);
    }
-
+   
+   
+   // calculates employee's total pay
+   
    static double calcTotalPay(double basePayRate, double hoursWorked) {
       double overtimePay = 0;
       double overtimeHours = 0;
@@ -109,8 +116,10 @@ public class StLouisCorp {
 
       return hoursWorked * basePayRate + overtimePay;
    }
+   
 
    // prints an error message depending on which error flag was set
+   
    static void printError(String flag) {
       if (flag == "both") {
          System.err.println("The base pay is less than minimum wage and the number of hours worked exceeds 60.");
