@@ -1,5 +1,3 @@
-package SecretKey;
-
 public class Communicator {
    private String name = "";
    
