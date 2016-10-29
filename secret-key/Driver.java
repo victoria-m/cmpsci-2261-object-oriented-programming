@@ -1,29 +1,46 @@
-import java.util.Scanner;
-
 public class Driver {
    public static void main(String[] args) {
       
       Communicator sender = new Communicator("Jill");
       Communicator receiver = new Communicator("Elliot");
       Message message = new Message();
-      Scanner scan = new Scanner(System.in);
+     
+      System.out.println("-------");
+      System.out.println("SENDER:");
+      System.out.println("-------");
       
+      System.out.println("\nPlease enter a message:\n");
+      message.readText();
       
-      // sender side:
-      
-      System.out.println("Please enter a message: ");
-
-      message.setText(new StringBuilder(scan.nextLine()));
       message.generateSecretKey();
-      message.encryptText();   
-           
-      // receiver side:
+      message.encryptText();
       
-      System.out.println("\nThe secret key is: " + message.getSecretKey());
-      System.out.println("\nThe encrypted message is: " + message.getText());
+      sender.setText(message.getText());
+      sender.setSecretKey(message.getSecretKey());
+      System.out.println("\nThe encrypted message is: " + sender.getText());
+
       
-      // display that the key is validated
+      System.out.println("\n\n---------");
+      System.out.println("RECEIVER:");
+      System.out.println("---------");
+      
+      receiver.setText(sender.getText());
+      receiver.setSecretKey(sender.getSecretKey());
+      
+      System.out.println("\nThe secret key is: " + receiver.getSecretKey());
+      
+      // check if key is valid
+      
+      if (message.verifySecretKey(receiver.getSecretKey()) == true) {
+         System.out.println("\nValid secret key.");
+      } else {
+         System.err.println("\nInvalid secret key. Exiting...");
+         System.exit(1);
+      }
       
       // display the decrypted message
+      
+       message.decryptCode();
+       System.out.println("\nThe decrypted message is: " + message.getText());
    }
 }
