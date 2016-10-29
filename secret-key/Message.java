@@ -39,7 +39,6 @@ public class Message {
    }
 
    void encryptText() {
-      
       // Step 1: remove all punctuation except for very end ? or .
 
       ArrayList<Character> punctuation = new ArrayList<>(
@@ -137,8 +136,7 @@ public class Message {
 
          // if y1x3x4 is at the end of the word, remove it from word
          
-         if (words.get(i).substring(words.get(i).length() - 3, words.get(i).length())
-               .equals(this.getSecretKey().substring(3, 6)))
+         if (words.get(i).substring(words.get(i).length() - 3, words.get(i).length()).equals(this.getSecretKey().substring(3, 6)))
             words.set(i, words.get(i).substring(0, words.get(i).length() - 3));
 
          // if x1x2 is at the end of the word
