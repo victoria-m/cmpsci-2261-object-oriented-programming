@@ -7,8 +7,7 @@ public class Message {
    private StringBuilder text = new StringBuilder("");
    private StringBuilder secretKey = new StringBuilder("  -   -  ");
 
-   Message() {
-   };
+   Message() { };
 
    Message(StringBuilder text, StringBuilder secretKey) {
       this.text = text;
@@ -40,7 +39,7 @@ public class Message {
    }
 
    void encryptText() {
-
+      
       // Step 1: remove all punctuation except for very end ? or .
 
       ArrayList<Character> punctuation = new ArrayList<>(
@@ -50,7 +49,7 @@ public class Message {
 
          if (punctuation.contains(this.text.charAt(i))) {
 
-            // only remove punctuation if NOT ? OR . at the very end
+            // only remove punctuation if not ? or . at the very end
             if (!((i == text.length() - 1) && (this.text.charAt(i) == '?' || this.text.charAt(i) == '.'))) {
                this.text.deleteCharAt(i);
 
@@ -60,33 +59,31 @@ public class Message {
             }
          }
       }
-
+      
+      
       // Step 2: convert phrase to lowerCase
 
       this.setText(new StringBuilder(this.text.toString().toLowerCase()));
 
-      // Step 3: the english phrase should be split up into words
-      // and each word encrypted separately (using the secret key)
+      
+      // Step 3: split the phrase up into words and encrypt each word separately using secret key
 
-      // split phrase up into words
       ArrayList<String> words = new ArrayList<>(Arrays.asList(this.text.toString().split(" ")));
 
+      
       // Step 3.1:
 
       ArrayList<Character> vowels = new ArrayList<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
 
       for (int i = 0; i < words.size(); ++i) {
 
-         // if first char is vowel, keep first char in place but add
-         // y1x3x4 to the end of word
-         if (vowels.contains(words.get(i).charAt(0)))
+         // if first char is vowel, add y1x3x4 to the end of word
+         if (vowels.contains(words.get(i).charAt(0))) 
             words.set(i, words.get(i).substring(0, words.get(i).length()) + this.secretKey.substring(3, 6));
 
-         // otherwise, move first char of the word to end then of the word
-         // then add x1x2 to the end of word
-         else
-            words.set(i, words.get(i).substring(1, words.get(i).length()) + words.get(i).charAt(0)
-                  + this.secretKey.substring(0, 2));
+         // otherwise, move first char to end of the word, then add x1x2 to the end of word
+         else 
+            words.set(i, words.get(i).substring(1, words.get(i).length()) + words.get(i).charAt(0) + this.secretKey.substring(0, 2));
       }
 
       StringBuilder temp = new StringBuilder("");
@@ -96,30 +93,26 @@ public class Message {
 
       this.setText(temp);
 
+      
       // Step 3.2:
-
-      // create new StringBuilder object from encrypted words
-      // to keep track of position relative to entire phrase
 
       // go through entire phrase
       for (int i = 0; i < this.getText().length(); ++i) {
 
-         // if position is multiple of z, insert the special char y2
+         // if position is a multiple of z, insert the special char y2
          if ((i % Character.getNumericValue(this.secretKey.charAt(7)) == 0) && (i != 0)) {
             this.getText().replace(0, this.getText().length(), this.getText().substring(0, i) + this.secretKey.charAt(8)
                   + this.getText().substring(i, this.getText().length()));
          }
       }
-
+      
    }
 
    void decryptCode() {
-      // decrypt the code according to the secret key
-      // decrypted code is lower-case and punctuation-free
-      // except for end ? or .
+      // decrypt the code according to the secret key.
+      // decrypted code is lower-case and punctuation-free except for end ? or .
 
-      // Step 1: remove the special char y2 from positions that are
-      // multiples of z
+      // Step 1: remove the special char y2 from positions that are multiples of z
 
       // used to store new string
       StringBuilder temp = new StringBuilder("");
@@ -134,6 +127,7 @@ public class Message {
 
       this.setText(temp);
 
+      
       // Step 2:
 
       // split phrase up into words
@@ -163,7 +157,6 @@ public class Message {
          temp.append(word + " ");
 
       this.setText(temp);
-
    }
 
    void generateSecretKey() {
@@ -176,10 +169,8 @@ public class Message {
        */
 
       Random rand = new Random();
-
-      // CHECK ALL212 GENERATORS
-
-      // randomly generate alphabet char
+      
+      // randomly generate alphabet chars
       this.secretKey.setCharAt(0, (char) (rand.nextInt(26) + 'a'));
       this.secretKey.setCharAt(1, (char) (rand.nextInt(26) + 'a'));
       this.secretKey.setCharAt(4, (char) (rand.nextInt(26) + 'a'));
@@ -191,7 +182,6 @@ public class Message {
 
       // randomly generate int between 2 and 5
       this.secretKey.setCharAt(7, (char) (rand.nextInt(4) + '2'));
-
    }
 
    // verify that the secret key matches the format x1x2-y1x3x4-zy2
