@@ -2,6 +2,22 @@
 public class Driver {
    public static void main(String[] args) {
       
+      // default traditional
+      House defaultTrad = new Traditional();
+      
+      // custom traditional
+      House custTrad = new Traditional();
+      
+      System.out.println(defaultTrad.toString());
+      System.out.println(custTrad.toString());
+      
+      
+      System.out.println("Comparisons:\n");
+      System.out.println(defaultTrad.compareTo(custTrad));
+      
+      System.out.println("\nCloning:");
+      System.out.println(custTrad.clone());
+      
       // ask customer to select the design style preferences
       // and specifications
       
