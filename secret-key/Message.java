@@ -1,3 +1,7 @@
+// Victoria Miltcheva 001
+
+package SecretKey;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -39,6 +43,7 @@ public class Message {
    }
 
    void encryptText() {
+      
       // Step 1: remove all punctuation except for very end ? or .
 
       ArrayList<Character> punctuation = new ArrayList<>(
@@ -136,7 +141,8 @@ public class Message {
 
          // if y1x3x4 is at the end of the word, remove it from word
          
-         if (words.get(i).substring(words.get(i).length() - 3, words.get(i).length()).equals(this.getSecretKey().substring(3, 6)))
+         if (words.get(i).substring(words.get(i).length() - 3, words.get(i).length())
+               .equals(this.getSecretKey().substring(3, 6)))
             words.set(i, words.get(i).substring(0, words.get(i).length() - 3));
 
          // if x1x2 is at the end of the word
@@ -175,9 +181,15 @@ public class Message {
       this.secretKey.setCharAt(5, (char) (rand.nextInt(26) + 'a'));
 
       // randomly generate special chars
-      this.secretKey.setCharAt(3, (char) (rand.nextInt(15) + '!'));
-      this.secretKey.setCharAt(8, (char) (rand.nextInt(15) + '!'));
-
+      // special chars are between 33-47 and 58-64 on ASCII table
+      if (rand.nextBoolean()) {
+         this.secretKey.setCharAt(3, (char) (rand.nextInt(15) + '!'));
+         this.secretKey.setCharAt(8, (char) (rand.nextInt(15) + '!'));
+      } else {
+         this.secretKey.setCharAt(3, (char) (rand.nextInt(7) + ':'));
+         this.secretKey.setCharAt(8, (char) (rand.nextInt(7) + ':'));
+      }
+         
       // randomly generate int between 2 and 5
       this.secretKey.setCharAt(7, (char) (rand.nextInt(4) + '2'));
    }
