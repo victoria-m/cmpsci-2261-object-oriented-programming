@@ -4,18 +4,18 @@ public class European extends House {
    // default template properties
    private final static String DEFAULT_STYLE = "European";
    private final static double DEFAULT_NUM_BEDROOMS = 2, DEFAULT_NUM_BATHROOMS = 2;
-   private final static double TEMPLATE_BASIC_RATE = 4700, DEFAULT_TOTAL_AREA = 2700;
+   private final static double DEFAULT_BASIC_RATE = 4700, DEFAULT_TOTAL_AREA = 2700;
 
    // default constructor
    protected European() {
-      super(DEFAULT_STYLE, DEFAULT_NUM_BEDROOMS, DEFAULT_NUM_BATHROOMS, DEFAULT_TOTAL_AREA, TEMPLATE_BASIC_RATE);
+      super(DEFAULT_STYLE, DEFAULT_NUM_BEDROOMS, DEFAULT_NUM_BATHROOMS, DEFAULT_TOTAL_AREA);
    }
 
    // re-implement method so that it uses the default values of European
    @Override
    protected double calcTotalCost() {
       
-      double totalCost, templateBasicRate = this.getTemplateRate();
+      double totalCost, templateBasicRate = DEFAULT_BASIC_RATE;
       double extraBedrooms = 0, extraBathrooms = 0;
 
       // if there are extra beds/baths
