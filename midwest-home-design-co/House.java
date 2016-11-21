@@ -1,30 +1,25 @@
 
 public abstract class House implements Cloneable, Comparable<House>, Customizable {
 
+   // user-provided variables
    protected String style;
    protected double numBedrooms, numBathrooms;
-   protected double totalCost, totalArea, templateRate;
-   protected final static double TAX = 0.05;
+   protected double totalCost, totalArea;
 
    // I set the default num beds/baths for the House template as 2/2
    // since we were not given a default value, these values are used when
    // determining the number of extra bedrooms/baths in calcTotalCost() for the
-   // generic House template
-   private final static int DEFAULT_NUM_BEDROOMS = 2, DEFAULT_NUM_BATHROOMS = 2;
-
-   // the customer’s specifications
-   // include the house style, number of bedrooms/bathrooms, and total area.
-   protected House(String style, double numBedrooms, double numBathrooms, double totalArea, double templateRate) {
+   // Custom House template
+   private final static double DEFAULT_NUM_BEDROOMS = 2, DEFAULT_NUM_BATHROOMS = 2, DEFAULT_BASIC_RATE = 3000;
+   protected final static double TAX = 0.05;
+   
+   // the customer’s specifications: includes house style, number of bedrooms/bathrooms, and total area.
+   protected House(String style, double numBedrooms, double numBathrooms, double totalArea) {
       this.style = style;
       this.numBedrooms = numBedrooms;
       this.numBathrooms = numBathrooms;
       this.totalArea = totalArea;
-      this.templateRate = templateRate;
       this.totalCost = this.calcTotalCost();
-   }
-
-   protected double calcTEMPLATE_BASIC_RATE() {
-      return 1;
    }
 
    protected void setStyle(String style) {
@@ -67,15 +62,11 @@ public abstract class House implements Cloneable, Comparable<House>, Customizabl
       return this.totalCost;
    }
 
-   protected double getTemplateRate() {
-      return this.templateRate;
-   }
-
    // based on house style, total area, number of beds/baths
-   // further implemented in subclasses depending on their default values
+   // implemented more specifically in subclasses depending on their default values
    protected double calcTotalCost() {
-      
-      double totalCost, templateBasicRate = this.getTemplateRate();
+
+      double totalCost, templateBasicRate = DEFAULT_BASIC_RATE;
       double extraBedrooms = 0, extraBathrooms = 0;
 
       // if there are extra beds/baths
@@ -98,17 +89,17 @@ public abstract class House implements Cloneable, Comparable<House>, Customizabl
       return totalCost;
    }
 
-   // returns a string including the description of the house design as well as
-   // design costs
+   // returns a string including the description of the house design as well as design costs
    @Override
    public String toString() {
       return String.format("Style: %s \nBeds: %.1f \nBaths: %.1f \nTotal area: %.2f \nTotal cost: $%.2f\n",
             this.getStyle(), this.getNumBedrooms(), this.getNumBathrooms(), this.getTotalArea(), this.getCost());
+
    }
 
    // returns negative int if current house is < other house,
    // positive int if >, and 0 if they are equal.
-   // compares style, num baths, and num baths
+   // compares style, num beds, and num baths
    @Override
    public int compareTo(House otherHouse) {
       int num;
@@ -133,7 +124,6 @@ public abstract class House implements Cloneable, Comparable<House>, Customizabl
       return num;
    }
 
-   // remember to cast to houes after cloning
    @Override
    protected House clone() {
       try {
@@ -142,7 +132,7 @@ public abstract class House implements Cloneable, Comparable<House>, Customizabl
          return null;
       }
    }
-
+   
    @Override
    public void customize(String style, double numBedrooms, double numBathrooms, double totalArea) {
       this.setStyle(style);
@@ -151,25 +141,5 @@ public abstract class House implements Cloneable, Comparable<House>, Customizabl
       this.setTotalArea(totalArea);
       this.setCost(this.calcTotalCost());
    }
-
-   // compares house style and preferences
-   // to default standard templates
-   // if any templates match the customer's search, then
-   // display the template + total design costs
-   // if not, display the user's style + total design costs
-
+   
 }
-
-// use generic programming
-
-// sub-classes extend House
-
-// House x = new Country(); if user chooses Country style
-
-// ask user to at least choose a style
-
-// obj attributes: beds, baths, template area
-
-// compareTo() compares to template
-
-// need to override toString() method and return description string
