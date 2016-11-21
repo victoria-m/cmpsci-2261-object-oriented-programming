@@ -4,18 +4,18 @@ public class Modern extends House {
    // default template properties
    private final static String DEFAULT_STYLE = "Modern";
    private final static double DEFAULT_NUM_BEDROOMS = 2, DEFAULT_NUM_BATHROOMS = 1.5;
-   private final static double TEMPLATE_BASIC_RATE = 4200, DEFAULT_TOTAL_AREA = 1800;
+   private final static double DEFAULT_BASIC_RATE = 4200, DEFAULT_TOTAL_AREA = 1800;
 
    // default constructor
    protected Modern() {
-      super(DEFAULT_STYLE, DEFAULT_NUM_BEDROOMS, DEFAULT_NUM_BATHROOMS, DEFAULT_TOTAL_AREA, TEMPLATE_BASIC_RATE);
+      super(DEFAULT_STYLE, DEFAULT_NUM_BEDROOMS, DEFAULT_NUM_BATHROOMS, DEFAULT_TOTAL_AREA);
    }
    
    // re-implement method so that it uses the default values of Modern
    @Override
    protected double calcTotalCost() {
       
-      double totalCost, templateBasicRate = this.getTemplateRate();
+      double totalCost, templateBasicRate = DEFAULT_BASIC_RATE;
       double extraBedrooms = 0, extraBathrooms = 0;
 
       // if there are extra beds/baths
