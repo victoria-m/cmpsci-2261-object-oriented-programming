@@ -1,4 +1,3 @@
-package PizzaShop;
 
 public abstract class Pizza {
    
