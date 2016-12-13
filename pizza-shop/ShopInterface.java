@@ -5,9 +5,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -39,7 +41,7 @@ public class ShopInterface extends Application {
       // LEFT PANE
       
       Button placeOrderButton = new Button("Place order");
-      Text choiceText = new Text("Pick your slice(s)");
+      Text choiceText = new Text("Pick your slice(s):");
       
       // remember to format text to $0.00
       Text cheesePizzaText = new Text("Cheese Pizza \n" + "($" + cheese.getCostPerSlice() + "/slice)");
@@ -79,17 +81,46 @@ public class ShopInterface extends Application {
       }
       
       
-      // RIGHT PANE
-
-      // pizza locations:
-      // 50, 100 + 50, 200 + 20, 300
+      // center PANE
+      
+      Pane center = new Pane();
+      
+      // cheese pizza image
+      Image cheesePizzaImage = new Image("file:src/PizzaShop/img/cheese1.jpg");
+      ImageView cheeseImageView = new ImageView(cheesePizzaImage);
+      cheeseImageView.setFitHeight(150);
+      cheeseImageView.setFitWidth(150);
+      
+      // vegetable pizza image
+      Image vegetablePizzaImage = new Image("file:src/PizzaShop/img/vegetable1.jpg");
+      ImageView vegetableImageView = new ImageView(vegetablePizzaImage);
+      vegetableImageView.setFitHeight(150);
+      vegetableImageView.setFitWidth(150);
+      
+      // pepperoni pizza image
+      Image pepperoniPizzaImage = new Image("file:src/PizzaShop/img/pepperoni3.jpg");
+      ImageView pepperoniImageView = new ImageView(pepperoniPizzaImage);
+      pepperoniImageView.setFitHeight(150);
+      pepperoniImageView.setFitWidth(150);
+      
+      cheeseImageView.setLayoutX(200);
+      cheeseImageView.setLayoutY(50);
+      
+      vegetableImageView.setLayoutX(100);
+      vegetableImageView.setLayoutY(200);
+      
+      pepperoniImageView.setLayoutX(300);
+      pepperoniImageView.setLayoutY(200);
+      
+      center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);      
       
      
       layout.setTop(new CustomPane("Welcome to the Pizza Shop"));
       layout.setLeft(left);
+      layout.setCenter(center);
 
-      Scene scene = new Scene(layout, 600, 400);
-      scene.setFill(Color.web("#A5A5A5"));
+      Scene scene = new Scene(layout, 650, 470);
+//      scene.setFill(Color.web("#A5A5A5"));
 
       // place scene inside window and display the window
       window.setScene(scene);
