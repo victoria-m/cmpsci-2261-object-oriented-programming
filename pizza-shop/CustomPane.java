@@ -1,4 +1,6 @@
 
+// used for creating a custom pane within the window
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
