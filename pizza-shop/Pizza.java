@@ -1,3 +1,4 @@
+package PizzaShop;
 
 public abstract class Pizza {
    
@@ -6,7 +7,7 @@ public abstract class Pizza {
    protected String type = "";
    
    protected Pizza (double costPerSlice, String type) {
-      this.numSlices = 8;
+      this.numSlices = 0;
       this.costPerSlice = costPerSlice;
       this.type = type;
    }
@@ -23,17 +24,8 @@ public abstract class Pizza {
       return this.type;
    }
    
-   protected void setType(String type) {
-      this.type = type;
-   }
-   
    protected double getCostPerSlice() {
       return this.costPerSlice;
    }
-   
-   protected void setCostPerSlice(double costPerSlice) {
-      this.costPerSlice = costPerSlice;
-   }
-   
    
 }
