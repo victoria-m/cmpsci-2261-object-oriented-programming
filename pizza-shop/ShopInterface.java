@@ -1,15 +1,24 @@
 
 import javafx.geometry.Insets;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -41,47 +50,133 @@ public class ShopInterface extends Application {
       // LEFT PANE
       
       Button placeOrderButton = new Button("Place order");
+      Button resetButton = new Button("Click here to reset");
+      
       Text choiceText = new Text("Pick your slice(s):");
+      Text totalCostText = new Text("$ 0.00");
+      Text thankYouText = new Text("Thank you for shopping with us! Enjoy!");
       
       // remember to format text to $0.00
-      Text cheesePizzaText = new Text("Cheese Pizza \n" + "($" + cheese.getCostPerSlice() + "/slice)");
-      Text vegetablePizzaText = new Text("Cheese Pizza \n" + "($" + vegetable.getCostPerSlice() + "/slice)");
-      Text pepperoniPizzaText = new Text("Cheese Pizza \n" + "($" + pepperoni.getCostPerSlice() + "/slice)");
-      Text totalText = new Text("Total: $" + order.getTotalCost());
+      Label cheesePizzaLabel = new Label("Cheese Pizza \n" + "($" + cheese.getCostPerSlice() + "/slice)");
+      Label vegetablePizzaLabel = new Label("Vegetable Pizza \n" + "($" + vegetable.getCostPerSlice() + "/slice)");
+      Label pepperoniPizzaLabel = new Label("Pepperoni Pizza \n" + "($" + pepperoni.getCostPerSlice() + "/slice)");
+      Label totalCostLabel = new Label("Total:");
+      
+      // used when setting text in GUI
+      DecimalFormat decFormat = new DecimalFormat("#.00");
       
       ChoiceBox<Integer> cheesePizzaChoice = new ChoiceBox<>();
       ChoiceBox<Integer> vegetablePizzaChoice = new ChoiceBox<>();
       ChoiceBox<Integer> pepperoniPizzaChoice = new ChoiceBox<>();
 
-      cheesePizzaChoice.getItems().addAll(1, 2, 3, 4, 5);
-      cheesePizzaChoice.setValue(1);
+      cheesePizzaChoice.getItems().addAll(0, 1, 2, 3, 4, 5);
+      cheesePizzaChoice.setValue(0);
 
-      vegetablePizzaChoice.getItems().addAll(1, 2, 3, 4, 5);
-      vegetablePizzaChoice.setValue(1);
+      vegetablePizzaChoice.getItems().addAll(0, 1, 2, 3, 4, 5);
+      vegetablePizzaChoice.setValue(0);
 
-      pepperoniPizzaChoice.getItems().addAll(1, 2, 3, 4, 5);
-      pepperoniPizzaChoice.setValue(1);
+      pepperoniPizzaChoice.getItems().addAll(0, 1, 2, 3, 4, 5);
+      pepperoniPizzaChoice.setValue(0);
+      
+      // used for calculating total cost
+      List<Integer> numSlicesPerPizza = new ArrayList<>();
+      List<Double> costPerSlice = new ArrayList<>();
+      
+      cheesePizzaChoice.setOnAction(e -> {
+         // update number of pizza slices
+         cheese.setNumSlices(cheesePizzaChoice.getValue());
+         
+         // add most recent values to pizza info arraylists
+         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
+         
+         // calculate total order cost and update the total cost text
+         order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
+         totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
+         
+         // reset lists so they can be updated when choice selection is updated
+         numSlicesPerPizza.clear();
+         costPerSlice.clear();
+      });
+      
+      vegetablePizzaChoice.setOnAction(e -> {
+         // update number of pizza slices
+         vegetable.setNumSlices(vegetablePizzaChoice.getValue());
+         
+         // add most recent values to pizza info arraylists
+         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
+         
+         // calculate total order cost and update the total cost text
+         order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
+         totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
+         
+         // reset lists so they can be updated when choice selection is updated
+         numSlicesPerPizza.clear();
+         costPerSlice.clear();
+      });
+      
+      pepperoniPizzaChoice.setOnAction(e -> {
+         // update number of pizza slices
+         pepperoni.setNumSlices(pepperoniPizzaChoice.getValue());
+         
+         // add most recent values to pizza info arraylists
+         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
+         
+         // calculate total order cost and update the total cost text
+         order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
+         totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
+         
+         // reset lists so they can be updated when choice selection is updated
+         numSlicesPerPizza.clear();
+         costPerSlice.clear();
+      });
+      
+      
+      // buttons
+      
+      placeOrderButton.setOnAction(e -> {
+         placeOrderButton.setDisable(true);
+         
+         thankYouText.setVisible(true);
+        
+      });
+      
+      resetButton.setOnAction(e -> {
+         placeOrderButton.setDisable(false);
+         
+         cheesePizzaChoice.setValue(0);
+         vegetablePizzaChoice.setValue(0);
+         pepperoniPizzaChoice.setValue(0);
+         
+         totalCostText.setText("$ 0.00");
+         
+         thankYouText.setVisible(false);
+      });
+      
 
       GridPane left = new GridPane();
       
       // (column, row) order
       left.add(choiceText, 0, 0);
-      left.add(cheesePizzaText, 0, 1);
+      left.add(cheesePizzaLabel, 0, 1);
       left.add(cheesePizzaChoice, 1, 1);
-      left.add(vegetablePizzaText, 0, 2);
+      left.add(vegetablePizzaLabel, 0, 2);
       left.add(vegetablePizzaChoice, 1, 2);
-      left.add(pepperoniPizzaText, 0, 3);
-      left.add(pepperoniPizzaChoice, 1, 3);     
-      left.add(totalText, 0, 4);
+      left.add(pepperoniPizzaLabel, 0, 3);
+      left.add(pepperoniPizzaChoice, 1, 3);  
+      left.add(totalCostLabel, 0, 4);
+      left.add(totalCostText, 1, 4);
       left.add(placeOrderButton, 0, 5);
       
       // set each child node's padding
       for (Node child : left.getChildren()) {
-         GridPane.setMargin(child, new Insets(15, 0, 15, 0));
+         GridPane.setMargin(child, new Insets(15, 15, 15, 15));
       }
       
       
-      // center PANE
+      // center pane
       
       Pane center = new Pane();
       
@@ -112,12 +207,31 @@ public class ShopInterface extends Application {
       pepperoniImageView.setLayoutX(300);
       pepperoniImageView.setLayoutY(200);
       
-      center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);      
-      
+      center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);            
      
-      layout.setTop(new CustomPane("Welcome to the Pizza Shop"));
+      
+      // bottom pane
+      
+      HBox bottom = new HBox();
+      
+      // column, row order
+      bottom.getChildren().addAll(thankYouText, resetButton);
+      
+      HBox.setMargin(bottom.getChildren().get(0), new Insets(5, 0, 5, 20));
+      HBox.setMargin(bottom.getChildren().get(1), new Insets(5, 100, 5, 50));
+      
+      // top pane
+      StackPane top = new StackPane();
+      Label welcomeLabel= new Label("Welcome to the Pizza Shop");
+      
+      top.getChildren().add(welcomeLabel);
+      
+
+      // set layout panes
+      layout.setTop(top);
       layout.setLeft(left);
       layout.setCenter(center);
+      layout.setBottom(bottom);
 
       Scene scene = new Scene(layout, 650, 470);
 //      scene.setFill(Color.web("#A5A5A5"));
