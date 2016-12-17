@@ -1,0 +1,56 @@
+.top{
+	-fx-font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	-fx-font-size: 28px;
+	-fx-background-color: #A5A5A5, linear-gradient(WHITE 0%, #c6e6e3 50%, #95d0cb 100%);
+	-fx-padding: 20px;
+	-fx-border-color: #95d0cb;
+	-fx-effect: dropshadow(three-pass-box, #95d0cb, 9, 0, 0, 0);
+}
+.left {
+	-fx-font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	-fx-font-size: 14px;
+	-fx-padding: 10px;
+}
+.center {
+	-fx-font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+.bottom {
+	-fx-font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;	
+	-fx-padding: 18px;
+}
+.choicebox {
+	-fx-mark-color: #95d0cb;
+}
+.total-cost {
+	-fx-font-weight: bold;
+	-fx-font-size: 20px;
+}
+.place-order-button {
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+	-fx-text-fill: linear-gradient(#95d0cb, #324823);
+	-fx-background-color: #95d0cb, linear-gradient(WHITE 0%, #95d0cb 100%);
+	-fx-border-color: #95d0cb;
+	-fx-border-radius: 30px 30px 30px 30px;
+	-fx-background-radius: 30px 30px 30px 30px;
+	-fx-effect: dropshadow(three-pass-box, #95d0cb, 9, 0, 0, 0);
+}
+.reset-button {
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+	-fx-pref-width: 300px;
+	-fx-text-fill: linear-gradient(#95d0cb, #324823);
+	-fx-background-color: #95d0cb, linear-gradient(WHITE 0%, #95d0cb 100%);
+	-fx-border-color: #95d0cb;
+	-fx-border-radius: 30px 30px 30px 30px;
+	-fx-background-radius: 30px 30px 30px 30px;
+	-fx-effect: dropshadow(three-pass-box, #95d0cb, 9, 0, 0, 0);
+	-fx-alignment: center;
+}
+.thank-you-text {
+	-fx-font-size: 19px;
+	-fx-font-style: italic;
+}
+.pizza-text {
+	-fx-font-size: 15px;
+}
