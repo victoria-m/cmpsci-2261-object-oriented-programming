@@ -180,6 +180,10 @@ public class ShopInterface extends Application {
       placeOrderButton.setOnAction(e -> {
          placeOrderButton.setDisable(true);
 
+         cheesePizzaChoice.setDisable(true);
+         vegetablePizzaChoice.setDisable(true);
+         pepperoniPizzaChoice.setDisable(true);
+         
          thankYouText.setVisible(true);
          resetButton.setVisible(true);
       });
@@ -187,6 +191,10 @@ public class ShopInterface extends Application {
       resetButton.setOnAction(e -> {
          placeOrderButton.setDisable(false);
 
+         cheesePizzaChoice.setDisable(false);
+         vegetablePizzaChoice.setDisable(false);
+         pepperoniPizzaChoice.setDisable(false);
+         
          cheesePizzaChoice.setValue(0);
          vegetablePizzaChoice.setValue(0);
          pepperoniPizzaChoice.setValue(0);
