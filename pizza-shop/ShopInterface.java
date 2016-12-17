@@ -30,6 +30,7 @@ public class ShopInterface extends Application {
    
    // main function is used as a fallback to launch the
    // program in case JavaFX is not fully supported
+   
    public static void main(String[] args) {
       launch(args);
    }
