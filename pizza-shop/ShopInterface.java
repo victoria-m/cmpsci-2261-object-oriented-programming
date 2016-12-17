@@ -106,7 +106,10 @@ public class ShopInterface extends Application {
       // used for calculating total cost
       List<Integer> numSlicesPerPizza = new ArrayList<>();
       List<Double> costPerSlice = new ArrayList<>();
-
+      
+      
+      // ACTIONS
+      
       cheesePizzaChoice.setOnAction(e -> {
          // update number of pizza slices
          cheese.setNumSlices(cheesePizzaChoice.getValue());
@@ -193,11 +196,13 @@ public class ShopInterface extends Application {
          resetButton.setVisible(false);
       });
 
+      
       // TOP PANE
       StackPane top = new StackPane();
 
       top.getChildren().add(welcomeLabel);
 
+      
       // BOTTOM PANE
 
       HBox bottom = new HBox();
@@ -207,6 +212,7 @@ public class ShopInterface extends Application {
       HBox.setMargin(bottom.getChildren().get(0), new Insets(5, 0, 5, 20));
       HBox.setMargin(bottom.getChildren().get(1), new Insets(5, 100, 5, 50));
 
+      
       // LEFT PANE
 
       GridPane left = new GridPane();
@@ -227,6 +233,7 @@ public class ShopInterface extends Application {
       for (Node child : left.getChildren()) {
          GridPane.setMargin(child, new Insets(15, 15, 15, 15));
       }
+      
 
       // CENTER PANE
 
@@ -272,14 +279,12 @@ public class ShopInterface extends Application {
       center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);
 
       // add arcs (removed pizza slices)
-      center.getChildren().addAll(cheesePizzaSliceArc, vegetablePizzaSliceArc, pepperoniPizzaSliceArc); // Add
-                                                                                                        // arc
-                                                                                                        // to
-                                                                                                        // pane
+      center.getChildren().addAll(cheesePizzaSliceArc, vegetablePizzaSliceArc, pepperoniPizzaSliceArc); 
 
       // add pizza text
       center.getChildren().addAll(cheesePizzaText, vegetablePizzaText, pepperoniPizzaText);
 
+      
       // STYLE
 
       placeOrderButton.getStyleClass().add("place-order-button");
@@ -305,6 +310,7 @@ public class ShopInterface extends Application {
       layout.setCenter(center);
       layout.setBottom(bottom);
 
+      
       // SCENE
 
       Scene scene = new Scene(layout, 790, 560);
