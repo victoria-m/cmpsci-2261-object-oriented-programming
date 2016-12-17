@@ -1,3 +1,4 @@
+package PizzaShop;
 
 import javafx.geometry.Insets;
 
@@ -26,13 +27,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class ShopInterface extends Application {
-
-   // used for displaying information about each type of pizza and the order
-   Cheese cheese = new Cheese();
-   Vegetable vegetable = new Vegetable();
-   Pepperoni pepperoni = new Pepperoni();
-   Order order = new Order();
-
+   
+   // main function is used as a fallback to launch the
+   // program in case JavaFX is not fully supported
    public static void main(String[] args) {
       launch(args);
    }
@@ -42,47 +39,57 @@ public class ShopInterface extends Application {
 
       Stage window = primaryStage;
       window.setTitle("Pizza Shop");
-      
+
       // layout is contained inside window
       BorderPane layout = new BorderPane();
+      layout.setStyle("-fx-background-color: transparent;");
+
       
-      layout.setPadding(new Insets(10, 10, 10, 10));
-      layout.setStyle("-fx-background-color: transparent;");      
-      
-      
-      // LEFT PANE
-      
-      // these buttons are hidden by default, showed once order is placed
+      // OBJECTS
+
+      // these objects are used for displaying information about
+      // the pizza and the user's order
+      Cheese cheese = new Cheese();
+      Vegetable vegetable = new Vegetable();
+      Pepperoni pepperoni = new Pepperoni();
+      Order order = new Order();
+
       Button placeOrderButton = new Button("Place order");
-      Button resetButton = new Button("Click here to reset");
-      
+      Button resetButton = new Button("Reset");
+
       Text choiceText = new Text("Pick your slice(s):");
       Text totalCostText = new Text("$ 0.00");
       Text thankYouText = new Text("Thank you for shopping with us! Enjoy!");
-      
-      // remember to format text to $0.00
+      Text cheesePizzaText = new Text("Cheese pizza");
+      Text vegetablePizzaText = new Text("Vegetable pizza");
+      Text pepperoniPizzaText = new Text("Pepperoni pizza");
+
+      // hidden by default, visible after order is placed
+      resetButton.setVisible(false);
+      thankYouText.setVisible(false);
+
       Label cheesePizzaLabel = new Label("Cheese Pizza \n" + "($" + cheese.getCostPerSlice() + "/slice)");
       Label vegetablePizzaLabel = new Label("Vegetable Pizza \n" + "($" + vegetable.getCostPerSlice() + "/slice)");
       Label pepperoniPizzaLabel = new Label("Pepperoni Pizza \n" + "($" + pepperoni.getCostPerSlice() + "/slice)");
       Label totalCostLabel = new Label("Total:");
-      
-      // used when setting text in GUI
+      Label welcomeLabel = new Label("Welcome to the Pizza Shop");
+
+      // used for formatting total cost text
       DecimalFormat decFormat = new DecimalFormat("#.00");
-            
-      // arcs over pizza images   
-      Arc cheesePizzaSliceArc = new Arc(275, 130, 83, 83, 0, 0);
-      cheesePizzaSliceArc.setFill(Color.WHITE); // Set fill color
+
+      // arcs over pizza images (represent removed pizza slices)
+      Arc cheesePizzaSliceArc = new Arc(282, 133, 82, 82, 0, 0);
+      cheesePizzaSliceArc.setFill(Color.web("#E3F3F1")); // Set fill color
       cheesePizzaSliceArc.setType(ArcType.ROUND); // Set arc type
-      
-      Arc vegetablePizzaSliceArc = new Arc(171, 280, 83, 83, 0, 0);
-      vegetablePizzaSliceArc.setFill(Color.WHITE); // Set fill color
+
+      Arc vegetablePizzaSliceArc = new Arc(183, 290, 88, 88, 0, 0);
+      vegetablePizzaSliceArc.setFill(Color.web("#E3F3F1")); // Set fill color
       vegetablePizzaSliceArc.setType(ArcType.ROUND); // Set arc type
-      
-      Arc pepperoniPizzaSliceArc = new Arc(370, 280, 83, 83, 0, 0);
-      pepperoniPizzaSliceArc.setFill(Color.WHITE); // Set fill color
+
+      Arc pepperoniPizzaSliceArc = new Arc(375, 285, 84, 84, 0, 0);
+      pepperoniPizzaSliceArc.setFill(Color.web("#E3F3F1")); // Set fill color
       pepperoniPizzaSliceArc.setType(ArcType.ROUND); // Set arc type
-   
-      
+
       ChoiceBox<Integer> cheesePizzaChoice = new ChoiceBox<>();
       ChoiceBox<Integer> vegetablePizzaChoice = new ChoiceBox<>();
       ChoiceBox<Integer> pepperoniPizzaChoice = new ChoiceBox<>();
@@ -95,96 +102,115 @@ public class ShopInterface extends Application {
 
       pepperoniPizzaChoice.getItems().addAll(0, 1, 2, 3, 4, 5, 6, 7, 8);
       pepperoniPizzaChoice.setValue(0);
-      
+
       // used for calculating total cost
       List<Integer> numSlicesPerPizza = new ArrayList<>();
       List<Double> costPerSlice = new ArrayList<>();
-      
+
       cheesePizzaChoice.setOnAction(e -> {
          // update number of pizza slices
          cheese.setNumSlices(cheesePizzaChoice.getValue());
-         
-         // remove pizza slices depending on how many slices were chosen        
-         cheesePizzaSliceArc.setLength(findArcAngle(cheese.getNumSlices()));      
-         
-         // add most recent values to pizza info arraylists
-         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
-         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
-         
+
+         // remove pizza slices depending on how many were chosen
+         cheesePizzaSliceArc.setLength(findArcAngle(cheese.getNumSlices()));
+
+         // update arraylists with most recent values
+         numSlicesPerPizza
+               .addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(
+               Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));
+
          // calculate total order cost and update the total cost text
          order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
          totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
-         
+
          // reset lists so they can be updated when choice selection is updated
          numSlicesPerPizza.clear();
          costPerSlice.clear();
       });
-      
+
       vegetablePizzaChoice.setOnAction(e -> {
          // update number of pizza slices
          vegetable.setNumSlices(vegetablePizzaChoice.getValue());
-         
-         // remove pizza slices depending on how many slices were chosen        
-         vegetablePizzaSliceArc.setLength(findArcAngle(vegetable.getNumSlices()));      
-  
-         // add most recent values to pizza info arraylists
-         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
-         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
-         
+
+         // remove pizza slices depending on how many were chosen
+         vegetablePizzaSliceArc.setLength(findArcAngle(vegetable.getNumSlices()));
+
+         // update arraylists with most recent values
+         numSlicesPerPizza
+               .addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(
+               Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));
+
          // calculate total order cost and update the total cost text
          order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
          totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
-         
+
          // reset lists so they can be updated when choice selection is updated
          numSlicesPerPizza.clear();
          costPerSlice.clear();
       });
-      
+
       pepperoniPizzaChoice.setOnAction(e -> {
          // update number of pizza slices
          pepperoni.setNumSlices(pepperoniPizzaChoice.getValue());
-         
-         // remove pizza slices depending on how many slices were chosen        
-         pepperoniPizzaSliceArc.setLength(findArcAngle(pepperoni.getNumSlices()));      
-  
-         // add most recent values to pizza info arraylists
-         numSlicesPerPizza.addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
-         costPerSlice.addAll(Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));  
-         
+
+         // remove pizza slices depending on how many were chosen
+         pepperoniPizzaSliceArc.setLength(findArcAngle(pepperoni.getNumSlices()));
+
+         // update arraylists with most recent values
+         numSlicesPerPizza
+               .addAll(Arrays.asList(cheese.getNumSlices(), vegetable.getNumSlices(), pepperoni.getNumSlices()));
+         costPerSlice.addAll(
+               Arrays.asList(cheese.getCostPerSlice(), vegetable.getCostPerSlice(), pepperoni.getCostPerSlice()));
+
          // calculate total order cost and update the total cost text
          order.setTotalCost(order.calculateCost(numSlicesPerPizza, costPerSlice));
          totalCostText.setText("$ " + decFormat.format(order.getTotalCost()));
-         
+
          // reset lists so they can be updated when choice selection is updated
          numSlicesPerPizza.clear();
          costPerSlice.clear();
       });
-      
-      
-      // buttons
-      
+
       placeOrderButton.setOnAction(e -> {
          placeOrderButton.setDisable(true);
-         
+
          thankYouText.setVisible(true);
-        
+         resetButton.setVisible(true);
       });
-      
+
       resetButton.setOnAction(e -> {
          placeOrderButton.setDisable(false);
-         
+
          cheesePizzaChoice.setValue(0);
          vegetablePizzaChoice.setValue(0);
          pepperoniPizzaChoice.setValue(0);
-         
+
          totalCostText.setText("$ 0.00");
-         
+
          thankYouText.setVisible(false);
+         resetButton.setVisible(false);
       });
-      
+
+      // TOP PANE
+      StackPane top = new StackPane();
+
+      top.getChildren().add(welcomeLabel);
+
+      // BOTTOM PANE
+
+      HBox bottom = new HBox();
+
+      bottom.getChildren().addAll(thankYouText, resetButton);
+
+      HBox.setMargin(bottom.getChildren().get(0), new Insets(5, 0, 5, 20));
+      HBox.setMargin(bottom.getChildren().get(1), new Insets(5, 100, 5, 50));
+
+      // LEFT PANE
 
       GridPane left = new GridPane();
-      
+
       // (column, row) order
       left.add(choiceText, 0, 0);
       left.add(cheesePizzaLabel, 0, 1);
@@ -192,70 +218,86 @@ public class ShopInterface extends Application {
       left.add(vegetablePizzaLabel, 0, 2);
       left.add(vegetablePizzaChoice, 1, 2);
       left.add(pepperoniPizzaLabel, 0, 3);
-      left.add(pepperoniPizzaChoice, 1, 3);  
+      left.add(pepperoniPizzaChoice, 1, 3);
       left.add(totalCostLabel, 0, 4);
       left.add(totalCostText, 1, 4);
       left.add(placeOrderButton, 0, 5);
-      
+
       // set each child node's padding
       for (Node child : left.getChildren()) {
          GridPane.setMargin(child, new Insets(15, 15, 15, 15));
       }
-      
-      
-      // center pane
-      
+
+      // CENTER PANE
+
       Pane center = new Pane();
-      
+
       // cheese pizza image
-      Image cheesePizzaImage = new Image("file:src/PizzaShop/img/cheese1.jpg");
+      Image cheesePizzaImage = new Image("file:src/PizzaShop/img/cheese.png");
       ImageView cheeseImageView = new ImageView(cheesePizzaImage);
-      cheeseImageView.setFitHeight(150);
-      cheeseImageView.setFitWidth(150);
-      
+      cheeseImageView.setFitHeight(160);
+      cheeseImageView.setFitWidth(160);
+
       // vegetable pizza image
-      Image vegetablePizzaImage = new Image("file:src/PizzaShop/img/vegetable1.jpg");
+      Image vegetablePizzaImage = new Image("file:src/PizzaShop/img/vegetable.png");
       ImageView vegetableImageView = new ImageView(vegetablePizzaImage);
-      vegetableImageView.setFitHeight(150);
-      vegetableImageView.setFitWidth(150);
-      
+      vegetableImageView.setFitHeight(170);
+      vegetableImageView.setFitWidth(170);
+
       // pepperoni pizza image
-      Image pepperoniPizzaImage = new Image("file:src/PizzaShop/img/pepperoni3.jpg");
+      Image pepperoniPizzaImage = new Image("file:src/PizzaShop/img/pepperoni.png");
       ImageView pepperoniImageView = new ImageView(pepperoniPizzaImage);
-      pepperoniImageView.setFitHeight(150);
-      pepperoniImageView.setFitWidth(150);
-      
+      pepperoniImageView.setFitHeight(160);
+      pepperoniImageView.setFitWidth(160);
+
       cheeseImageView.setLayoutX(200);
       cheeseImageView.setLayoutY(50);
-      
+
+      cheesePizzaText.setLayoutX(232);
+      cheesePizzaText.setLayoutY(38);
+
       vegetableImageView.setLayoutX(100);
       vegetableImageView.setLayoutY(200);
-      
+
+      vegetablePizzaText.setLayoutX(132);
+      vegetablePizzaText.setLayoutY(380);
+
       pepperoniImageView.setLayoutX(300);
       pepperoniImageView.setLayoutY(200);
-      
+
+      pepperoniPizzaText.setLayoutX(330);
+      pepperoniPizzaText.setLayoutY(380);
+
       // add images
-      center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);            
-      
-      // add arcs
-      center.getChildren().addAll(cheesePizzaSliceArc, vegetablePizzaSliceArc, pepperoniPizzaSliceArc); // Add arc to pane
-           
-      // bottom pane
-      
-      HBox bottom = new HBox();
-      
-      // column, row order
-      bottom.getChildren().addAll(thankYouText, resetButton);
-      
-      HBox.setMargin(bottom.getChildren().get(0), new Insets(5, 0, 5, 20));
-      HBox.setMargin(bottom.getChildren().get(1), new Insets(5, 100, 5, 50));
-      
-      // top pane
-      StackPane top = new StackPane();
-      Label welcomeLabel= new Label("Welcome to the Pizza Shop");
-      
-      top.getChildren().add(welcomeLabel);
-      
+      center.getChildren().addAll(cheeseImageView, vegetableImageView, pepperoniImageView);
+
+      // add arcs (removed pizza slices)
+      center.getChildren().addAll(cheesePizzaSliceArc, vegetablePizzaSliceArc, pepperoniPizzaSliceArc); // Add
+                                                                                                        // arc
+                                                                                                        // to
+                                                                                                        // pane
+
+      // add pizza text
+      center.getChildren().addAll(cheesePizzaText, vegetablePizzaText, pepperoniPizzaText);
+
+      // STYLE
+
+      placeOrderButton.getStyleClass().add("place-order-button");
+      resetButton.getStyleClass().add("reset-button");
+      thankYouText.getStyleClass().add("thank-you-text");
+      totalCostLabel.getStyleClass().add("total-cost");
+      totalCostText.getStyleClass().add("total-cost");
+      cheesePizzaChoice.getStyleClass().add("choicebox");
+      vegetablePizzaChoice.getStyleClass().add("choicebox");
+      pepperoniPizzaChoice.getStyleClass().add("choicebox");
+      cheesePizzaText.getStyleClass().add("pizza-text");
+      vegetablePizzaText.getStyleClass().add("pizza-text");
+      pepperoniPizzaText.getStyleClass().add("pizza-text");
+
+      top.getStyleClass().add("top");
+      left.getStyleClass().add("left");
+      center.getStyleClass().add("center");
+      bottom.getStyleClass().add("bottom");
 
       // set layout panes
       layout.setTop(top);
@@ -263,40 +305,47 @@ public class ShopInterface extends Application {
       layout.setCenter(center);
       layout.setBottom(bottom);
 
-      Scene scene = new Scene(layout, 700, 470);
-//      scene.setFill(Color.web("#A5A5A5"));
+      // SCENE
+
+      Scene scene = new Scene(layout, 790, 560);
+      scene.setFill(Color.web("#E3F3F1"));
+
+      // add style sheet
+      scene.getStylesheets().add("file:src/PizzaShop/stylesheet/style.css");
+
+      window.getIcons().add(new Image("file:src/PizzaShop/img/pizza_slice.png"));
 
       // place scene inside window and display the window
       window.setScene(scene);
       window.show();
    }
-   
+
+   // find the arc angle depending on the number of pizza slices selected
    public static int findArcAngle(int numSlices) {
-      // change number of removed pizza slices
-      
+
       switch (numSlices) {
-         case 0:
-            return 0;
+      case 0:
+         return 0;
       case 1:
-            return 45;
-         case 2:
-            return 90;
-         case 3:
-            return 135;
-         case 4:
-            return 180;
-         case 5:
-            return 225;
-         case 6:
-            return 270;
-         case 7:
-            return 315;
-         case 8:
-            return 360;
-         default:
-            break;
+         return 45;
+      case 2:
+         return 90;
+      case 3:
+         return 135;
+      case 4:
+         return 180;
+      case 5:
+         return 225;
+      case 6:
+         return 270;
+      case 7:
+         return 315;
+      case 8:
+         return 360;
+      default:
+         break;
       }
-      
+
       // default return
       return 0;
    }
