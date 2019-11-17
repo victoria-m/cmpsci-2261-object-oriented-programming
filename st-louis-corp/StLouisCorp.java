@@ -4,8 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class StLouisCorp {
    public static void main(String[] args) throws InterruptedException {
-
-      // the following arrays contain the employee names, base pay, and number
+      // The following arrays contain the employee names, base pay, and number
       // of hours worked
       String[] nameArr = new String[100];
       double[] basePayArr = new double[100];
@@ -24,7 +23,7 @@ public class StLouisCorp {
 
          nameArr[i] = input.nextLine();
 
-         // check if user wants to exit loop, otherwise ask for employee's base
+         // Check if user wants to exit loop, otherwise ask for employee's base
          // pay and number of hours worked
          if (nameArr[i].trim().toLowerCase().equals("exit")) running = false;
          else {
