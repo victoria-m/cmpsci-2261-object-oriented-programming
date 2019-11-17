@@ -2,8 +2,7 @@ package PizzaShop;
 
 import java.util.List;
 
-// contains information about the customer's order
-
+// Contains information about the customer's order
 public class Order {
    protected double totalCost;
 
@@ -23,7 +22,7 @@ public class Order {
       this.totalCost += amount;
    }
 
-   // takes into account every slice selected and its cost
+   // Takes into account every slice selected and its cost
    double calculateCost(List<Integer> numSlicesPerPizza, List<Double> costPerSlice) {
 
       double totalCost = 0;
