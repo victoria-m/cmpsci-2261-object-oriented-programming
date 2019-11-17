@@ -1,5 +1,3 @@
-// Victoria Miltcheva 001
-
 package SecretKey;
 
 import java.util.ArrayList;
