@@ -1,6 +1,5 @@
 public class Driver {
    public static void main(String[] args) {
-
       Communicator sender = new Communicator("Jill");
       Communicator receiver = new Communicator("Elliot");
       Message message = new Message();
